@@ -250,4 +250,5 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
-./cocos2d
+/cocos2d
+/proj.win32/Debug.win32
