@@ -2,14 +2,26 @@
 #include "Constants.h"
 #include "Projectile.h"
 USING_NS_CC;
-Player::Player(const std::string& fileName):
+#define COCOS2D_DEBUG 1
+Player::Player():
 	m_cooldown(0.f),
 	m_shootInterval(0.5f),
 	m_previousPosition(this->getPosition())
 {
-	m_sprite = Sprite::create(fileName);
-	this->addChild(m_sprite);
+}
 
+void Player::onOutOfArea()
+{
+	if (m_movableArea.containsPoint(this->getPosition()) == false) {
+		this->setPosition(m_previousPosition);
+	}
+}
+
+bool Player::init(const std::string& fileName)
+{
+	if (GameObject::init(fileName) == false)
+		return false;
+	m_cooldown = m_shootInterval;
 	this->setName(PLAYER);
 
 	auto eventListener = EventListenerKeyboard::create();
@@ -17,7 +29,7 @@ Player::Player(const std::string& fileName):
 	m_movableArea = Rect(
 		m_origin.x + m_sprite->getContentSize().width / 2,
 		m_origin.y + m_sprite->getContentSize().height / 2,
-		(m_origin.x + m_visibleSize.width) - (m_sprite->getContentSize().width*2 + m_sprite->getContentSize().width/2),
+		(m_origin.x + m_visibleSize.width) - (m_sprite->getContentSize().width * 2 + m_sprite->getContentSize().width / 2),
 		(m_origin.y + m_visibleSize.height) / 2 - m_sprite->getContentSize().height / 2);
 	eventListener->onKeyPressed = [&](EventKeyboard::KeyCode keyCode, Event* eventPtr) {
 
@@ -30,7 +42,8 @@ Player::Player(const std::string& fileName):
 	};
 	eventListener->onKeyReleased = [&](EventKeyboard::KeyCode keyCode, Event* eventPtr) {
 		m_keyInput.erase(keyCode);
-		m_cooldown = m_shootInterval;
+		if(keyCode == EventKeyboard::KeyCode::KEY_SPACE)
+			m_cooldown = m_shootInterval;
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(eventListener, this);
 
@@ -40,14 +53,7 @@ Player::Player(const std::string& fileName):
 	m_sprite->setPhysicsBody(spriteBody);
 
 	scheduleUpdate();
-
-}
-
-void Player::onOutOfArea()
-{
-	if (m_movableArea.containsPoint(this->getPosition()) == false) {
-		this->setPosition(m_previousPosition);
-	}
+	return true;
 }
 
 bool Player::isKeyPressed(cocos2d::EventKeyboard::KeyCode code)
@@ -79,11 +85,13 @@ void Player::update(float delta)
 	if (isKeyPressed(EventKeyboard::KeyCode::KEY_SPACE)) {
 
 		m_cooldown += delta;
-		if (m_cooldown > m_shootInterval) {
+
+		if (m_cooldown >= m_shootInterval) {
+			CCLOG("m_cooldown : %f", m_cooldown);
 			Projectile* projectile = Projectile::create("red-dot-hi.png");
 			projectile->setVelocity(Vec2(0, 1.f));
 			projectile->setName(PLAYER);
-			//projectile->setMask(0x2);
+			projectile->setMask(PROJECTILE_MASK);
 			projectile->setPosition(this->getPosition().x, this->getPosition().y + m_sprite->getContentSize().height / 2);
 			this->getParent()->addChild(projectile);
 			m_cooldown = 0;
@@ -97,9 +105,9 @@ void Player::update(float delta)
 
 Player* Player::create(const std::string& fileName)
 {
-	auto ret = new (std::nothrow) Player(fileName);
+	auto ret = new (std::nothrow) Player();
 
-	if (ret) {
+	if (ret && ret->init(fileName)) {
 		ret->autorelease();
 		return ret;
 	}

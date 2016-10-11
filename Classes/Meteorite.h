@@ -9,12 +9,13 @@ public:
 	inline void setVelocity(const cocos2d::Vec2& velocity) { m_velocity = velocity; }
 protected:
 	virtual void onOutOfArea() override;
+
+	virtual bool init(const std::string& fileName) override;
+
 private:
 	virtual void update(float delta) override;
 	void destroy();
-	Meteorite(const std::string& fileName);
-
-	cocos2d::Sprite* m_sprite;
+	Meteorite();
 	cocos2d::Vec2 m_velocity;
 
 };

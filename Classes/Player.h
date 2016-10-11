@@ -15,17 +15,17 @@ private:
 	virtual void update(float delta) override;
 
 
-	Player(const std::string& fileName);
+	Player();
 private:
 
 	cocos2d::Vec2 m_previousPosition;
 
-	cocos2d::Sprite* m_sprite;
+
 
 	std::map<cocos2d::EventKeyboard::KeyCode, bool> m_keyInput;
 	float m_cooldown;
 	float m_shootInterval;
 protected:
 	virtual void onOutOfArea() override;
-
+	virtual bool init(const std::string& fileName)override;
 };
