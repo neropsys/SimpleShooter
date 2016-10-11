@@ -29,9 +29,9 @@ bool Meteorite::init(const std::string& fileName)
 	if (GameObject::init(fileName) == false)
 		return false;
 	auto spriteBody = PhysicsBody::createCircle(10.f, PhysicsMaterial(0, 0, 0));
-	spriteBody->setCategoryBitmask(0x3);
-	spriteBody->setCollisionBitmask(0x0);
-	spriteBody->setContactTestBitmask(0x3);
+	spriteBody->setCategoryBitmask(METEORITE_MASK);
+	spriteBody->setCollisionBitmask(OBJ_SPACE);
+	spriteBody->setContactTestBitmask(METEORITE_MASK);
 	m_sprite->setPhysicsBody(spriteBody);
 
 	m_collisionListener->onContactBegin = CC_CALLBACK_1(Meteorite::onContactBegin, this);

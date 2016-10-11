@@ -47,7 +47,8 @@ bool HelloWorld::init()
 	auto enemy = Enemy::create("airplane.png");
 	enemy->setRotation(180);
 	enemy->setPosition(Vec2(origin.x + visibleSize.width /3, origin.y + visibleSize.height / 3));
-	enemy->setDestinationPos(Vec2(enemy->getPosition().x - 30, enemy->getPosition().y));
+	enemy->setDestinationPos(Vec2(origin.x + visibleSize.width / 3, origin.y + visibleSize.height / 3));
+	enemy->setStartPos(Vec2(origin.x + visibleSize.width / 3, origin.y + visibleSize.height / 3));
 	this->addChild(enemy);
 
 	

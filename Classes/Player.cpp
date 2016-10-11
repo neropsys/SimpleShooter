@@ -54,8 +54,9 @@ bool Player::init(const std::string& fileName)
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_collisionListener, this);
 
 	auto spriteBody = PhysicsBody::createCircle(10.f, PhysicsMaterial(0, 0, 0));
-	spriteBody->setCategoryBitmask(0x1);
-	spriteBody->setContactTestBitmask(0x1);
+	spriteBody->setCategoryBitmask(PLAYER_MASK);
+	spriteBody->setContactTestBitmask(PLAYER_MASK);
+	spriteBody->setCollisionBitmask(OBJ_SPACE);
 	m_sprite->setPhysicsBody(spriteBody);
 
 	scheduleUpdate();
@@ -95,7 +96,7 @@ void Player::update(float delta)
 		if (m_cooldown >= m_shootInterval) {
 			Projectile* projectile = Projectile::create("red-dot-hi.png");
 			projectile->setVelocity(Vec2(0, 1.f));
-			projectile->setMask(PROJECTILE_MASK);
+			projectile->setMask(PLAYER_PROJ_MASK);
 			projectile->setPosition(this->getPosition().x, this->getPosition().y + m_sprite->getContentSize().height / 2);
 			this->getParent()->addChild(projectile);
 			m_cooldown = 0;

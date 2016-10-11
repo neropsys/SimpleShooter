@@ -10,7 +10,7 @@ Projectile* Projectile::setVelocity(const cocos2d::Vec2& velocity)
 void Projectile::setMask(int mask)
 {
 	m_sprite->getPhysicsBody()->setContactTestBitmask(mask);
-	m_sprite->getPhysicsBody()->setCollisionBitmask(mask);
+	m_sprite->getPhysicsBody()->setCategoryBitmask(mask);
 }
 
 bool Projectile::onContactBegin(cocos2d::PhysicsContact& contact)
@@ -46,7 +46,7 @@ bool Projectile::init(const std::string& fileName)
 	if (GameObject::init(fileName) == false) return false;
 
 	auto spriteBody = PhysicsBody::createCircle(5.f, PhysicsMaterial(0, 0, 0));
-	spriteBody->setCategoryBitmask(0x1);
+	spriteBody->setCollisionBitmask(PROJ_SPACE);
 	m_sprite->setPhysicsBody(spriteBody);
 
 	m_collisionListener->onContactBegin = CC_CALLBACK_1(Projectile::onContactBegin, this);
