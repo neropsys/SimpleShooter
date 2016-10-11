@@ -1,11 +1,10 @@
 #pragma once
 #include "GameObject.h"
-#include "ICollidable.h"
-class Meteorite : public GameObject, public ICollidable {
+class Meteorite : public GameObject {
 public:
-	static Meteorite* create(const std::string& fileName);
+	CUSTOM_CREATE_FUNC(Meteorite);
 
-	virtual void collided(const std::string& name) override;
+	virtual bool onContactBegin(cocos2d::PhysicsContact& contact) override;
 	inline void setVelocity(const cocos2d::Vec2& velocity) { m_velocity = velocity; }
 protected:
 	virtual void onOutOfArea() override;

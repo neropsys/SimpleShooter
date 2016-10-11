@@ -9,20 +9,13 @@ Meteorite::Meteorite() :
 }
 
 
-Meteorite* Meteorite::create(const std::string& fileName)
-{
-	auto ret = new (std::nothrow) Meteorite();
-	if (ret && ret->init(fileName)) {
-		ret->autorelease();
-		return ret;
-	}
-	CC_SAFE_DELETE(ret);
-	return nullptr;
-}
 
-void Meteorite::collided(const std::string& name)
+bool Meteorite::onContactBegin(cocos2d::PhysicsContact& contact)
 {
+	if (GameObject::onContactBegin(contact) == false)
+		return false;
 	destroy();
+	return true;
 }
 
 void Meteorite::onOutOfArea()
@@ -37,10 +30,13 @@ bool Meteorite::init(const std::string& fileName)
 		return false;
 	auto spriteBody = PhysicsBody::createCircle(10.f, PhysicsMaterial(0, 0, 0));
 	spriteBody->setCategoryBitmask(0x3);
+	spriteBody->setCollisionBitmask(0x0);
 	spriteBody->setContactTestBitmask(0x3);
 	m_sprite->setPhysicsBody(spriteBody);
 
-	m_movableArea = Rect(m_origin.x, m_origin.y, m_visibleSize.width, m_visibleSize.height);
+	m_collisionListener->onContactBegin = CC_CALLBACK_1(Meteorite::onContactBegin, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_collisionListener, this);
+
 	scheduleUpdate();
 
 	return true;
@@ -56,5 +52,5 @@ void Meteorite::update(float delta)
 
 void Meteorite::destroy()
 {
-	this->removeFromParent();
+	this->removeFromParentAndCleanup(true);
 }

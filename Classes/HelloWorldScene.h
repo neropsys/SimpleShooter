@@ -5,6 +5,7 @@
 #include <map>
 #include "Player.h"
 #include "Meteorite.h"
+#include "Enemy.h"
 #include "Box2D/Box2D.h"
 #include "Constants.h"
 #include <memory>
@@ -29,6 +30,7 @@ private:
 	cocos2d::PhysicsWorld* m_world;
 	
 	bool onContactBegin(cocos2d::PhysicsContact& contact);
+
 
 };
 

@@ -1,14 +1,13 @@
 #pragma once
 #include "cocos2d.h"
 #include "GameObject.h"
-#include "ICollidable.h"
 #include "Constants.h"
-class Projectile : public GameObject, public ICollidable {
+class Projectile : public GameObject{
 public:
-	static Projectile* create(const std::string& fileName);
+	CUSTOM_CREATE_FUNC(Projectile);
 	Projectile* setVelocity(const cocos2d::Vec2& velocity);
 	void setMask(int mask);
-	virtual void collided(const std::string& name) override;
+	virtual bool onContactBegin(cocos2d::PhysicsContact& contact) override;
 
 private:
 	virtual void update(float delta) override;

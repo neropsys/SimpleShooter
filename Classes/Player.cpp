@@ -24,13 +24,15 @@ bool Player::init(const std::string& fileName)
 	m_cooldown = m_shootInterval;
 	this->setName(PLAYER);
 
-	auto eventListener = EventListenerKeyboard::create();
+	
 
 	m_movableArea = Rect(
 		m_origin.x + m_sprite->getContentSize().width / 2,
 		m_origin.y + m_sprite->getContentSize().height / 2,
 		(m_origin.x + m_visibleSize.width) - (m_sprite->getContentSize().width * 2 + m_sprite->getContentSize().width / 2),
 		(m_origin.y + m_visibleSize.height) / 2 - m_sprite->getContentSize().height / 2);
+
+	auto eventListener = EventListenerKeyboard::create();
 	eventListener->onKeyPressed = [&](EventKeyboard::KeyCode keyCode, Event* eventPtr) {
 
 		Vec2 location = eventPtr->getCurrentTarget()->getPosition();
@@ -46,6 +48,10 @@ bool Player::init(const std::string& fileName)
 			m_cooldown = m_shootInterval;
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(eventListener, this);
+
+
+	 m_collisionListener->onContactBegin = CC_CALLBACK_1(Player::onContactBegin, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_collisionListener, this);
 
 	auto spriteBody = PhysicsBody::createCircle(10.f, PhysicsMaterial(0, 0, 0));
 	spriteBody->setCategoryBitmask(0x1);
@@ -87,10 +93,8 @@ void Player::update(float delta)
 		m_cooldown += delta;
 
 		if (m_cooldown >= m_shootInterval) {
-			CCLOG("m_cooldown : %f", m_cooldown);
 			Projectile* projectile = Projectile::create("red-dot-hi.png");
 			projectile->setVelocity(Vec2(0, 1.f));
-			projectile->setName(PLAYER);
 			projectile->setMask(PROJECTILE_MASK);
 			projectile->setPosition(this->getPosition().x, this->getPosition().y + m_sprite->getContentSize().height / 2);
 			this->getParent()->addChild(projectile);
@@ -103,20 +107,13 @@ void Player::update(float delta)
 
 
 
-Player* Player::create(const std::string& fileName)
-{
-	auto ret = new (std::nothrow) Player();
 
-	if (ret && ret->init(fileName)) {
-		ret->autorelease();
-		return ret;
-	}
-	CC_SAFE_DELETE(ret);
-	return nullptr;
+bool Player::onContactBegin(cocos2d::PhysicsContact& contact)
+{
+	if (GameObject::onContactBegin(contact) == false)
+		return false;
+	this->removeFromParentAndCleanup(true);
+	return true;
 }
 
-void Player::collided(const std::string& name)
-{
-	throw std::logic_error("The method or operation is not implemented.");
-}
 

@@ -1,14 +1,12 @@
 #pragma once
 #include "cocos2d.h"
 #include "GameObject.h"
-#include "ICollidable.h"
 #include <map>
-class Player : public GameObject, public ICollidable {
+class Player : public GameObject {
 
 public:
-	static Player* create(const std::string& fileName);
-
-	virtual void collided(const std::string& name) override;
+	CUSTOM_CREATE_FUNC(Player);
+	virtual bool onContactBegin(cocos2d::PhysicsContact& contact) override;
 
 private:
 	bool isKeyPressed(cocos2d::EventKeyboard::KeyCode);

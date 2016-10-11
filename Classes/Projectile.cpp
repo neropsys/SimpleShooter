@@ -1,15 +1,5 @@
 #include "Projectile.h"
 USING_NS_CC;
-Projectile* Projectile::create(const std::string& fileName)
-{
-	auto ret = new (std::nothrow) Projectile();
-	if (ret && ret->init(fileName)) {
-		ret->autorelease();
-		return ret;
-	}
-	CC_SAFE_DELETE(ret);
-	return nullptr;
-}
 
 Projectile* Projectile::setVelocity(const cocos2d::Vec2& velocity)
 {
@@ -23,9 +13,12 @@ void Projectile::setMask(int mask)
 	m_sprite->getPhysicsBody()->setCollisionBitmask(mask);
 }
 
-void Projectile::collided(const std::string& name)
+bool Projectile::onContactBegin(cocos2d::PhysicsContact& contact)
 {
-	this->removeFromParent();
+	if (GameObject::onContactBegin(contact) == false)
+		return false;
+	this->removeFromParentAndCleanup(true);
+	return true;
 }
 
 void Projectile::update(float delta)
@@ -44,7 +37,7 @@ Projectile::Projectile()
 void Projectile::onOutOfArea()
 {
 	if (m_movableArea.containsPoint(this->getPosition()) == false) {
-		this->removeFromParent();
+		this->removeFromParentAndCleanup(true);
 	}
 }
 
@@ -55,7 +48,9 @@ bool Projectile::init(const std::string& fileName)
 	auto spriteBody = PhysicsBody::createCircle(5.f, PhysicsMaterial(0, 0, 0));
 	spriteBody->setCategoryBitmask(0x1);
 	m_sprite->setPhysicsBody(spriteBody);
-	m_movableArea = Rect(m_origin.x, m_origin.y, m_visibleSize.width, m_visibleSize.height);
+
+	m_collisionListener->onContactBegin = CC_CALLBACK_1(Projectile::onContactBegin, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_collisionListener, this);
 
 	scheduleUpdate();
 	return true;

@@ -1,6 +1,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "Constants.h"
+#include "GameObject.h"
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -41,10 +42,18 @@ bool HelloWorld::init()
 	meteor->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y+ visibleSize.height / 2));
 	
 	this->addChild(meteor);
+
+
+	auto enemy = Enemy::create("airplane.png");
+	enemy->setRotation(180);
+	enemy->setPosition(Vec2(origin.x + visibleSize.width /3, origin.y + visibleSize.height / 3));
+	enemy->setDestinationPos(Vec2(enemy->getPosition().x - 30, enemy->getPosition().y));
+	this->addChild(enemy);
+
 	
-	auto contactListener = EventListenerPhysicsContact::create();
-	contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin, this);
-	getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
+	//auto contactListener = EventListenerPhysicsContact::create();
+	//contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin, this);
+	//getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
     return true;
 }
 
@@ -69,13 +78,16 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 bool HelloWorld::onContactBegin(cocos2d::PhysicsContact& contact)
 {
-	auto aObj = contact.getShapeA()->getBody();
+	/*auto aObj = contact.getShapeA()->getBody();
 	auto bObj = contact.getShapeB()->getBody();
 	if ((aObj->getCategoryBitmask() & bObj->getCollisionBitmask() != 0) ||
 		(bObj->getCategoryBitmask() & aObj->getCollisionBitmask() != 0)) {
-		contact.getShapeA()->getBody()->getNode()->removeFromParent();
+		//static_cast<ICollidable>(contact.getShapeA()->getBody()->getNode())
+		auto aCollision = contact.getShapeA()->getBody()->get;
+		dynamic_cast<GameObject*>(aCollision)->collided("fds");
+		//collision((ICollidable*)aCollision);
 		contact.getShapeB()->getBody()->getNode()->removeFromParent();
-	}
+	}*/
 
 	return true;
 }
