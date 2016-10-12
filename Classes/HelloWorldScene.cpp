@@ -119,7 +119,7 @@ void HelloWorld::spawnEnemy(float delta)
 
 	auto enemy = Enemy::create("airplane.png");
 	enemy->setRotation(180);
-	enemy->setPosition(Vec2(xPosition, m_origin.y + m_visibleSize.height / 2));
+	enemy->setPosition(Vec2(xPosition, m_origin.y + m_visibleSize.height));
 	enemy->setDestinationPos(Vec2(xPosition, m_origin.y - m_visibleSize.height));
 	this->addChild(enemy);
 }

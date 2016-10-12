@@ -47,6 +47,11 @@ void Enemy::shoot(float delta)
 	if (m_cooldown >= m_shootInterval) {
 		Projectile* projectile = m_projectile->clone();
 		projectile->setPosition(this->getPosition().x, this->getPosition().y - m_sprite->getContentSize().height / 10);
+		
+		Vec2 direction = m_destPos - m_startPos;
+		direction.normalize();
+
+		projectile->setVelocity(Vec2(direction.x, -(direction.y + 4)));
 		projectile->setRotation(getRotation());
 
 		this->getParent()->addChild(projectile);
@@ -70,7 +75,7 @@ bool Enemy::init(const std::string& fileName)
 {
 	if (GameObject::init(fileName) == false)
 		return false;
-	m_projectile->setVelocity(Vec2(0, -1.f));
+	m_projectile->setVelocity(Vec2(0, -2.f));
 	m_projectile->setMask(ENEMY_PROJ_MASK);
 	m_projectile->retain();
 
@@ -78,6 +83,7 @@ bool Enemy::init(const std::string& fileName)
 	spriteBody->setCategoryBitmask(ENEMY_MASK);
 	spriteBody->setCollisionBitmask(OBJ_SPACE);
 	spriteBody->setContactTestBitmask(ENEMY_MASK);
+	spriteBody->setGroup(-ENEMY_MASK);
 	m_sprite->setPhysicsBody(spriteBody);
 
 	m_collisionListener->onContactBegin = CC_CALLBACK_1(Enemy::onContactBegin, this);

@@ -130,6 +130,7 @@ void Player::shoot(float delta)
 		Vec2 currentVelocity = this->getPosition() - m_previousPosition;
 		fakeOne->setVelocity(fakeOne->getVelocity() + currentVelocity);
 		fakeOne->setPosition(this->getPosition().x, this->getPosition().y + m_sprite->getContentSize().height / 2);
+		
 		this->getParent()->addChild(fakeOne);
 		m_cooldown = 0;
 	}
