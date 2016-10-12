@@ -68,13 +68,17 @@ bool HelloWorld::init()
 				m_gamePaused = true;
 			}
 			break;
+		case EventKeyboard::KeyCode::KEY_ENTER:
+			m_player->setVisible(true);
+			resumeGame();
+			break;
 		default:
 			break;
 		}
 	};
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyInputEvent, this);
-
+	scheduleUpdate();
     return true;
 }
 
@@ -98,8 +102,9 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 void HelloWorld::update(float delta)
 {
-	if (!this->getChildByName(PLAYER)) {
-
+	if (m_player->isVisible()==false) {
+		pauseGame();
+		m_label->setString("Game over. Press Enter to restart");
 	}
 }
 

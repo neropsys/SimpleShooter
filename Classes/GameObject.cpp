@@ -11,6 +11,7 @@ bool GameObject::onContactBegin(cocos2d::PhysicsContact& contact)
 	return true;
 }
 
+
 bool GameObject::init(const std::string& fileName)
 {
 	m_sprite = Sprite::create(fileName);
@@ -20,6 +21,8 @@ bool GameObject::init(const std::string& fileName)
 	this->addChild(m_sprite);
 	return true;
 }
+
+
 
 GameObject::GameObject() :
 	m_visibleSize(Director::getInstance()->getVisibleSize()),

@@ -7,8 +7,14 @@ Enemy::Enemy() :
 	m_destPos(Vec2(0, 0)),
 	m_startPos(getPosition()),
 	m_cooldown(0.f),
-	m_shootInterval(1.f)
+	m_shootInterval(1.f),
+	m_projectile(Projectile::create("red-dot-hi.png"))
 {
+}
+
+Enemy::~Enemy()
+{
+	m_projectile->release();
 }
 
 bool Enemy::onContactBegin(cocos2d::PhysicsContact& contact)
@@ -27,21 +33,26 @@ void Enemy::update(float delta)
 	Vec2 currentPosition = getPosition();
 	setPosition(currentPosition.x + direction.x, currentPosition.y + direction.y);
 
-	m_cooldown += delta;
-
-	if (m_cooldown >= m_shootInterval) {
-		Projectile* projectile = Projectile::create("red-dot-hi.png");
-		projectile->setVelocity(Vec2(0, -1.f));
-		projectile->setMask(ENEMY_PROJ_MASK);
-		projectile->setPosition(this->getPosition().x, this->getPosition().y - m_sprite->getContentSize().height /10);
-		projectile->setRotation(getRotation());
-		this->getParent()->addChild(projectile);
-		m_cooldown = 0;
-	}
+	shoot(delta);
 
 	onOutOfArea();
 }
 
+
+void Enemy::shoot(float delta)
+{
+
+	m_cooldown += delta;
+
+	if (m_cooldown >= m_shootInterval) {
+		Projectile* projectile = m_projectile->clone();
+		projectile->setPosition(this->getPosition().x, this->getPosition().y - m_sprite->getContentSize().height / 10);
+		projectile->setRotation(getRotation());
+
+		this->getParent()->addChild(projectile);
+		m_cooldown = 0;
+	}
+}
 
 void Enemy::onOutOfArea()
 {
@@ -53,6 +64,10 @@ bool Enemy::init(const std::string& fileName)
 {
 	if (GameObject::init(fileName) == false)
 		return false;
+	m_projectile->setVelocity(Vec2(0, -1.f));
+	m_projectile->setMask(ENEMY_PROJ_MASK);
+	m_projectile->retain();
+
 	auto spriteBody = PhysicsBody::createCircle(10.f, PhysicsMaterial(0, 0, 0));
 	spriteBody->setCategoryBitmask(ENEMY_MASK);
 	spriteBody->setCollisionBitmask(OBJ_SPACE);

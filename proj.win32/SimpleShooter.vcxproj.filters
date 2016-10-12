@@ -68,13 +68,13 @@
     <ClInclude Include="..\Classes\Enemy.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\IShootable.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
       <Filter>resource</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

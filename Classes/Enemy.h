@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
-class Enemy : public GameObject{
+#include "IShootable.h"
+#include "Projectile.h"
+class Enemy : public GameObject, IShootable{
 public:
 	CUSTOM_CREATE_FUNC(Enemy);
 
@@ -10,9 +12,12 @@ public:
 
 	virtual void update(float delta) override;
 
+
+	virtual void shoot(float delta) override;
+
 protected:
 	Enemy();
-	virtual ~Enemy() {};
+	virtual ~Enemy();
 	virtual void onOutOfArea() override;
 
 
@@ -25,5 +30,5 @@ private:
 	cocos2d::Vec2 m_startPos;
 	float m_cooldown;
 	float m_shootInterval;
-
+	Projectile* m_projectile;
 };

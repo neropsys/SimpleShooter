@@ -9,8 +9,10 @@ Projectile* Projectile::setVelocity(const cocos2d::Vec2& velocity)
 
 void Projectile::setMask(int mask)
 {
+	m_mask = mask;
 	m_sprite->getPhysicsBody()->setContactTestBitmask(mask);
 	m_sprite->getPhysicsBody()->setCategoryBitmask(mask);
+	m_sprite->getPhysicsBody()->setGroup(-mask);
 }
 
 bool Projectile::onContactBegin(cocos2d::PhysicsContact& contact)
@@ -19,6 +21,20 @@ bool Projectile::onContactBegin(cocos2d::PhysicsContact& contact)
 		return false;
 	this->removeFromParentAndCleanup(true);
 	return true;
+}
+
+
+
+Projectile* Projectile::clone()
+{
+	auto ret = new Projectile();
+
+	ret->m_sprite = Sprite::createWithTexture(m_sprite->getTexture());
+	ret->addChild(ret->m_sprite);
+	ret->m_velocity = this->m_velocity;
+	ret->init();
+	ret->setMask(this->m_mask);
+	return ret;
 }
 
 void Projectile::update(float delta)
@@ -31,7 +47,7 @@ void Projectile::update(float delta)
 }
 
 Projectile::Projectile()
-{	
+{
 }
 
 void Projectile::onOutOfArea()
@@ -44,7 +60,12 @@ void Projectile::onOutOfArea()
 bool Projectile::init(const std::string& fileName)
 {
 	if (GameObject::init(fileName) == false) return false;
+	
+	return init();
+}
 
+bool Projectile::init()
+{
 	auto spriteBody = PhysicsBody::createCircle(5.f, PhysicsMaterial(0, 0, 0));
 	spriteBody->setCollisionBitmask(PROJ_SPACE);
 	m_sprite->setPhysicsBody(spriteBody);

@@ -1,13 +1,20 @@
 #include "Player.h"
 #include "Constants.h"
-#include "Projectile.h"
+
 USING_NS_CC;
 #define COCOS2D_DEBUG 1
 Player::Player():
 	m_cooldown(0.f),
 	m_shootInterval(0.5f),
-	m_previousPosition(this->getPosition())
+	m_previousPosition(this->getPosition()),
+	m_projectile(Projectile::create("red-dot-hi.png"))
+
 {
+}
+
+Player::~Player()
+{
+	m_projectile->release();
 }
 
 void Player::onOutOfArea()
@@ -23,8 +30,9 @@ bool Player::init(const std::string& fileName)
 		return false;
 	m_cooldown = m_shootInterval;
 	this->setName(PLAYER);
-
-	
+	m_projectile->setVelocity(Vec2(0, 1.f));
+	m_projectile->setMask(PLAYER_PROJ_MASK);
+	m_projectile->retain();
 
 	m_movableArea = Rect(
 		m_origin.x + m_sprite->getContentSize().width / 2,
@@ -91,16 +99,8 @@ void Player::update(float delta)
 	}
 	if (isKeyPressed(EventKeyboard::KeyCode::KEY_SPACE)) {
 
-		m_cooldown += delta;
-
-		if (m_cooldown >= m_shootInterval) {
-			Projectile* projectile = Projectile::create("red-dot-hi.png");
-			projectile->setVelocity(Vec2(0, 1.f));
-			projectile->setMask(PLAYER_PROJ_MASK);
-			projectile->setPosition(this->getPosition().x, this->getPosition().y + m_sprite->getContentSize().height / 2);
-			this->getParent()->addChild(projectile);
-			m_cooldown = 0;
-		}
+		shoot(delta);
+		
 	}
 	setPosition(position);
 	onOutOfArea();
@@ -113,8 +113,22 @@ bool Player::onContactBegin(cocos2d::PhysicsContact& contact)
 {
 	if (GameObject::onContactBegin(contact) == false)
 		return false;
-	this->removeFromParentAndCleanup(true);
+	this->pause();
+	setVisible(false);
+
+	m_keyInput.clear();
+
 	return true;
 }
 
+void Player::shoot(float delta)
+{
+	m_cooldown += delta;
 
+	if (m_cooldown >= m_shootInterval) {	
+		auto fakeOne = m_projectile->clone();
+		fakeOne->setPosition(this->getPosition()); // (this->getPosition().x, this->getPosition().y + m_sprite->getContentSize().height / 2);
+		this->getParent()->addChild(fakeOne);
+		m_cooldown = 0;
+	}
+}
