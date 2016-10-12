@@ -30,7 +30,7 @@ bool Player::init(const std::string& fileName)
 		return false;
 	m_cooldown = m_shootInterval;
 	this->setName(PLAYER);
-	m_projectile->setVelocity(Vec2(0, 1.f));
+	m_projectile->setVelocity(Vec2(0, 2.f));
 	m_projectile->setMask(PLAYER_PROJ_MASK);
 	m_projectile->retain();
 
@@ -86,16 +86,16 @@ void Player::update(float delta)
 	m_previousPosition = this->getPosition();
 	Vec2 position = this->getPosition();
 	if (isKeyPressed(EventKeyboard::KeyCode::KEY_A)) {
-		--position.x;
+		position.x-=2;
 	}
 	if (isKeyPressed(EventKeyboard::KeyCode::KEY_D)) {
-		++position.x;
+		position.x+=2;
 	}
 	if (isKeyPressed(EventKeyboard::KeyCode::KEY_W)) {
-		++position.y;
+		position.y+=2;
 	}
 	if (isKeyPressed(EventKeyboard::KeyCode::KEY_S)) {
-		--position.y;
+		position.y-=2;
 	}
 	if (isKeyPressed(EventKeyboard::KeyCode::KEY_SPACE)) {
 
@@ -127,7 +127,9 @@ void Player::shoot(float delta)
 
 	if (m_cooldown >= m_shootInterval) {	
 		auto fakeOne = m_projectile->clone();
-		fakeOne->setPosition(this->getPosition()); // (this->getPosition().x, this->getPosition().y + m_sprite->getContentSize().height / 2);
+		Vec2 currentVelocity = this->getPosition() - m_previousPosition;
+		fakeOne->setVelocity(fakeOne->getVelocity() + currentVelocity);
+		fakeOne->setPosition(this->getPosition().x, this->getPosition().y + m_sprite->getContentSize().height / 2);
 		this->getParent()->addChild(fakeOne);
 		m_cooldown = 0;
 	}

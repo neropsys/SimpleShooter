@@ -8,12 +8,13 @@ public:
 
 	virtual bool onContactBegin(cocos2d::PhysicsContact& contact) override;
 	inline void setDestinationPos(const cocos2d::Vec2& dest) { m_destPos = dest; }
-	inline void setStartPos(const cocos2d::Vec2& start) { m_startPos = start; }
 
 	virtual void update(float delta) override;
 
 
 	virtual void shoot(float delta) override;
+
+	virtual void setPosition(const cocos2d::Vec2 &position) override;
 
 protected:
 	Enemy();

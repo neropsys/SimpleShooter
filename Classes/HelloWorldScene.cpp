@@ -30,28 +30,27 @@ bool HelloWorld::init()
         return false;
     }
     
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    m_visibleSize = Director::getInstance()->getVisibleSize();
+    m_origin = Director::getInstance()->getVisibleOrigin();
 
 	m_player = Player::create("CloseSelected.png");
-	m_player->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 10 + origin.y));
+	m_player->setPosition(Vec2(m_visibleSize.width / 2 + m_origin.x, m_visibleSize.height / 10 + m_origin.y));
 	this->addChild(m_player, 0);
 
 	auto meteor = Meteorite::create("stone.png");
-	meteor->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y+ visibleSize.height / 2));	
+	meteor->setPosition(Vec2(m_origin.x + m_visibleSize.width / 2, m_origin.y+ m_visibleSize.height / 2));	
 	this->addChild(meteor);
 
 	m_gamePaused = true;
 
 	auto enemy = Enemy::create("airplane.png");
 	enemy->setRotation(180);
-	enemy->setPosition(Vec2(origin.x + visibleSize.width /3, origin.y + visibleSize.height / 3));
-	enemy->setDestinationPos(Vec2(origin.x + visibleSize.width / 3, origin.y + visibleSize.height / 3));
-	enemy->setStartPos(Vec2(origin.x + visibleSize.width / 3, origin.y + visibleSize.height / 3));
+	enemy->setPosition(Vec2(m_origin.x + m_visibleSize.width /3, m_origin.y + m_visibleSize.height / 3));
+	enemy->setDestinationPos(Vec2(m_origin.x + m_visibleSize.width / 3, m_origin.y + m_visibleSize.height / 3));
 	this->addChild(enemy);
 	
 	m_label = Label::create("Press esc to begin", "Ariel", 16);
-	m_label->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+	m_label->setPosition(Vec2(m_origin.x + m_visibleSize.width / 2, m_origin.y + m_visibleSize.height / 2));
 	this->addChild(m_label);
 
 	auto keyInputEvent = EventListenerKeyboard::create();
@@ -78,7 +77,13 @@ bool HelloWorld::init()
 	};
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyInputEvent, this);
+	
+	schedule(schedule_selector(HelloWorld::spawnEnemy), 1.f);
+
+	
 	scheduleUpdate();
+
+
     return true;
 }
 
@@ -108,6 +113,17 @@ void HelloWorld::update(float delta)
 	}
 }
 
+void HelloWorld::spawnEnemy(float delta)
+{
+	float xPosition = random<float>(m_origin.x, m_origin.x + m_visibleSize.width);
+
+	auto enemy = Enemy::create("airplane.png");
+	enemy->setRotation(180);
+	enemy->setPosition(Vec2(xPosition, m_origin.y + m_visibleSize.height / 2));
+	enemy->setDestinationPos(Vec2(xPosition, m_origin.y - m_visibleSize.height));
+	this->addChild(enemy);
+}
+
 void HelloWorld::onEnter()
 {
 	Layer::onEnter();
@@ -120,6 +136,7 @@ void HelloWorld::pauseGame()
 		it->pause();
 	}
 	m_label->setVisible(true);
+	unschedule(schedule_selector(HelloWorld::spawnEnemy));
 
 }
 
@@ -129,5 +146,6 @@ void HelloWorld::resumeGame()
 		it->resume();
 	}
 	m_label->setVisible(false);
+	schedule(schedule_selector(HelloWorld::spawnEnemy), 1.f);
 }
 

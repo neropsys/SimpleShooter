@@ -31,7 +31,7 @@ void Enemy::update(float delta)
 	Vec2 direction = m_destPos - m_startPos;
 	direction.normalize();
 	Vec2 currentPosition = getPosition();
-	setPosition(currentPosition.x + direction.x, currentPosition.y + direction.y);
+	Node::setPosition(currentPosition.x + direction.x, currentPosition.y + direction.y);
 
 	shoot(delta);
 
@@ -54,6 +54,12 @@ void Enemy::shoot(float delta)
 	}
 }
 
+void Enemy::setPosition(const Vec2& position)
+{
+	GameObject::setPosition(position);
+	m_startPos = position;
+}
+
 void Enemy::onOutOfArea()
 {
 	if(m_movableArea.containsPoint(this->getPosition())==false)
@@ -73,6 +79,10 @@ bool Enemy::init(const std::string& fileName)
 	spriteBody->setCollisionBitmask(OBJ_SPACE);
 	spriteBody->setContactTestBitmask(ENEMY_MASK);
 	m_sprite->setPhysicsBody(spriteBody);
+
+	m_collisionListener->onContactBegin = CC_CALLBACK_1(Enemy::onContactBegin, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_collisionListener, this);
+
 	scheduleUpdate();
 	return true;
 

@@ -6,6 +6,7 @@ class Projectile : public GameObject{
 public:
 	CUSTOM_CREATE_FUNC(Projectile);
 	Projectile* setVelocity(const cocos2d::Vec2& velocity);
+	inline cocos2d::Vec2 getVelocity() { return m_velocity; }
 	void setMask(int mask);
 	virtual bool onContactBegin(cocos2d::PhysicsContact& contact) override;
 	virtual Projectile* clone();

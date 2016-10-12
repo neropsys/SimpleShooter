@@ -26,7 +26,7 @@ public:
 
 
 	virtual void update(float delta) override;
-
+	void spawnEnemy(float delta);
 
 	virtual void onEnter() override;
 
@@ -38,6 +38,8 @@ private:
 	cocos2d::PhysicsWorld* m_world;
 	bool m_gamePaused;
 	cocos2d::Label* m_label;
+	cocos2d::Size m_visibleSize;
+	cocos2d::Vec2 m_origin;
 
 
 

@@ -17,8 +17,6 @@ static __TYPE__* create(const std::string& fileName) \
 class GameObject : public cocos2d::Node {
 public:
 	virtual bool onContactBegin(cocos2d::PhysicsContact& contact);
-
-
 protected:
 	virtual void onOutOfArea()=0;
 
