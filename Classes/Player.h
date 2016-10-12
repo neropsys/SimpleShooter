@@ -11,6 +11,7 @@ public:
 	virtual bool onContactBegin(cocos2d::PhysicsContact& contact) override;
 	virtual void shoot(float delta) override;
 
+
 protected:
 	virtual void onOutOfArea() override;
 	virtual bool init(const std::string& fileName) override;
@@ -25,5 +26,6 @@ private:
 	std::map<cocos2d::EventKeyboard::KeyCode, bool> m_keyInput;
 	float m_cooldown;
 	float m_shootInterval;
+	cocos2d::EventListenerKeyboard* m_eventListener;
 
 };

@@ -71,6 +71,9 @@
     <ClInclude Include="..\Classes\IShootable.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\ExplosiveProjectile.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

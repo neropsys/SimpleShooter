@@ -35,11 +35,13 @@ bool HelloWorld::init()
 
 	m_player = Player::create("CloseSelected.png");
 	m_player->setPosition(Vec2(m_visibleSize.width / 2 + m_origin.x, m_visibleSize.height / 10 + m_origin.y));
+	m_player->retain();
 	this->addChild(m_player, 0);
 
 	auto meteor = Meteorite::create("stone.png");
 	meteor->setPosition(Vec2(m_origin.x + m_visibleSize.width / 2, m_origin.y+ m_visibleSize.height / 2));	
 	this->addChild(meteor);
+
 
 	m_gamePaused = true;
 
@@ -48,9 +50,11 @@ bool HelloWorld::init()
 	enemy->setPosition(Vec2(m_origin.x + m_visibleSize.width /3, m_origin.y + m_visibleSize.height / 3));
 	enemy->setDestinationPos(Vec2(m_origin.x + m_visibleSize.width / 3, m_origin.y + m_visibleSize.height / 3));
 	this->addChild(enemy);
+
 	
 	m_label = Label::create("Press esc to begin", "Ariel", 16);
 	m_label->setPosition(Vec2(m_origin.x + m_visibleSize.width / 2, m_origin.y + m_visibleSize.height / 2));
+	m_label->retain();
 	this->addChild(m_label);
 
 	auto keyInputEvent = EventListenerKeyboard::create();
@@ -68,15 +72,23 @@ bool HelloWorld::init()
 			}
 			break;
 		case EventKeyboard::KeyCode::KEY_ENTER:
+		{
+			if (m_player->isVisible())
+				break;
 			m_player->setVisible(true);
+			removeAllChildrenWithCleanup(true);
+			this->addChild(m_label);
+			this->addChild(m_player);
+			m_player->scheduleUpdate();
 			resumeGame();
+		}
 			break;
 		default:
 			break;
 		}
 	};
 
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyInputEvent, this);
+	_eventDispatcher->addEventListenerWithFixedPriority(keyInputEvent, 20);
 	
 	schedule(schedule_selector(HelloWorld::spawnEnemy), 1.f);
 
@@ -128,6 +140,12 @@ void HelloWorld::onEnter()
 {
 	Layer::onEnter();
 	pauseGame();
+}
+
+void HelloWorld::onExit()
+{
+	m_label->release();
+	m_player->release();
 }
 
 void HelloWorld::pauseGame()

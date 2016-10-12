@@ -15,6 +15,8 @@ Player::Player():
 Player::~Player()
 {
 	m_projectile->release();
+	m_eventListener->release();
+	m_collisionListener->release();
 }
 
 void Player::onOutOfArea()
@@ -40,8 +42,9 @@ bool Player::init(const std::string& fileName)
 		(m_origin.x + m_visibleSize.width) - (m_sprite->getContentSize().width * 2 + m_sprite->getContentSize().width / 2),
 		(m_origin.y + m_visibleSize.height) / 2 - m_sprite->getContentSize().height / 2);
 
-	auto eventListener = EventListenerKeyboard::create();
-	eventListener->onKeyPressed = [&](EventKeyboard::KeyCode keyCode, Event* eventPtr) {
+	//make variable
+	m_eventListener = EventListenerKeyboard::create();
+	m_eventListener->onKeyPressed = [&](EventKeyboard::KeyCode keyCode, Event* eventPtr) {
 
 		Vec2 location = eventPtr->getCurrentTarget()->getPosition();
 
@@ -50,12 +53,13 @@ bool Player::init(const std::string& fileName)
 		}
 
 	};
-	eventListener->onKeyReleased = [&](EventKeyboard::KeyCode keyCode, Event* eventPtr) {
+	m_eventListener->onKeyReleased = [&](EventKeyboard::KeyCode keyCode, Event* eventPtr) {
 		m_keyInput.erase(keyCode);
 		if(keyCode == EventKeyboard::KeyCode::KEY_SPACE)
 			m_cooldown = m_shootInterval;
 	};
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(eventListener, this);
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_eventListener, this);
 
 
 	 m_collisionListener->onContactBegin = CC_CALLBACK_1(Player::onContactBegin, this);

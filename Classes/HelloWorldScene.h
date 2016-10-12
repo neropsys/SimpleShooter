@@ -9,6 +9,7 @@
 #include "Box2D/Box2D.h"
 #include "Constants.h"
 #include <memory>
+#include <deque>
 class HelloWorld : public cocos2d::Layer
 {
 public:
@@ -30,6 +31,9 @@ public:
 
 	virtual void onEnter() override;
 
+
+	virtual void onExit() override;
+
 private:
 	inline void setPhysicsWorld(cocos2d::PhysicsWorld* world) { m_world = world; }
 	void pauseGame();
@@ -40,7 +44,6 @@ private:
 	cocos2d::Label* m_label;
 	cocos2d::Size m_visibleSize;
 	cocos2d::Vec2 m_origin;
-
 
 
 };
