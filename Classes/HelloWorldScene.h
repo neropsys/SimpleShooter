@@ -24,12 +24,21 @@ public:
 
 
 
+
+	virtual void update(float delta) override;
+
+
+	virtual void onEnter() override;
+
 private:
 	inline void setPhysicsWorld(cocos2d::PhysicsWorld* world) { m_world = world; }
+	void pauseGame();
+	void resumeGame();
 	Player* m_player;
 	cocos2d::PhysicsWorld* m_world;
-	
-	bool onContactBegin(cocos2d::PhysicsContact& contact);
+	bool m_gamePaused;
+	cocos2d::Label* m_label;
+
 
 
 };

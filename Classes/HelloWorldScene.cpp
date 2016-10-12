@@ -34,15 +34,14 @@ bool HelloWorld::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	m_player = Player::create("CloseSelected.png");
-
 	m_player->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 10 + origin.y));
 	this->addChild(m_player, 0);
 
 	auto meteor = Meteorite::create("stone.png");
-	meteor->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y+ visibleSize.height / 2));
-	
+	meteor->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y+ visibleSize.height / 2));	
 	this->addChild(meteor);
 
+	m_gamePaused = true;
 
 	auto enemy = Enemy::create("airplane.png");
 	enemy->setRotation(180);
@@ -50,11 +49,32 @@ bool HelloWorld::init()
 	enemy->setDestinationPos(Vec2(origin.x + visibleSize.width / 3, origin.y + visibleSize.height / 3));
 	enemy->setStartPos(Vec2(origin.x + visibleSize.width / 3, origin.y + visibleSize.height / 3));
 	this->addChild(enemy);
-
 	
-	//auto contactListener = EventListenerPhysicsContact::create();
-	//contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin, this);
-	//getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
+	m_label = Label::create("Press esc to begin", "Ariel", 16);
+	m_label->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+	this->addChild(m_label);
+
+	auto keyInputEvent = EventListenerKeyboard::create();
+	keyInputEvent->onKeyPressed = [&](EventKeyboard::KeyCode keyCode, Event* eventPtr) {
+		switch (keyCode)
+		{
+		case EventKeyboard::KeyCode::KEY_ESCAPE:
+			if (m_gamePaused) {
+				resumeGame();				
+				m_gamePaused = false;
+			}
+			else {
+				pauseGame();
+				m_gamePaused = true;
+			}
+			break;
+		default:
+			break;
+		}
+	};
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyInputEvent, this);
+
     return true;
 }
 
@@ -76,19 +96,33 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 }
 
-
-bool HelloWorld::onContactBegin(cocos2d::PhysicsContact& contact)
+void HelloWorld::update(float delta)
 {
-	/*auto aObj = contact.getShapeA()->getBody();
-	auto bObj = contact.getShapeB()->getBody();
-	if ((aObj->getCategoryBitmask() & bObj->getCollisionBitmask() != 0) ||
-		(bObj->getCategoryBitmask() & aObj->getCollisionBitmask() != 0)) {
-		//static_cast<ICollidable>(contact.getShapeA()->getBody()->getNode())
-		auto aCollision = contact.getShapeA()->getBody()->get;
-		dynamic_cast<GameObject*>(aCollision)->collided("fds");
-		//collision((ICollidable*)aCollision);
-		contact.getShapeB()->getBody()->getNode()->removeFromParent();
-	}*/
+	if (!this->getChildByName(PLAYER)) {
 
-	return true;
+	}
 }
+
+void HelloWorld::onEnter()
+{
+	Layer::onEnter();
+	pauseGame();
+}
+
+void HelloWorld::pauseGame()
+{
+	for (const auto& it : this->getChildren()) {
+		it->pause();
+	}
+	m_label->setVisible(true);
+
+}
+
+void HelloWorld::resumeGame()
+{
+	for (const auto& it : this->getChildren()) {
+		it->resume();
+	}
+	m_label->setVisible(false);
+}
+
