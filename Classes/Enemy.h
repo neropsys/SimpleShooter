@@ -10,7 +10,8 @@ public:
 	inline void setDestinationPos(const cocos2d::Vec2& dest) { m_destPos = dest; }
 
 	virtual void update(float delta) override;
-
+	
+	virtual void setBulletType(Projectile::BulletType);
 
 	virtual void shoot(float delta) override;
 

@@ -11,6 +11,7 @@ bool GameObject::onContactBegin(cocos2d::PhysicsContact& contact)
 	return true;
 }
 
+
 bool GameObject::init(const std::string& fileName)
 {
 	m_sprite = Sprite::create(fileName);

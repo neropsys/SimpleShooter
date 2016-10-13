@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "Constants.h"
 #include "Projectile.h"
+#include "ExplosiveProjectile.h"
 USING_NS_CC;
 
 Enemy::Enemy() :
@@ -38,6 +39,22 @@ void Enemy::update(float delta)
 	onOutOfArea();
 }
 
+
+void Enemy::setBulletType(Projectile::BulletType bulletType)
+{
+	switch (bulletType) {
+	case Projectile::Explosive:
+
+		m_projectile->release();
+		m_projectile = ExplosiveProjectile::create("red-dot-hi.png"); // ExplosiveProjectile::create("red-dot-hi.png");
+		m_projectile->setVelocity(Vec2(0, -2.f));
+		m_projectile->setMask(ENEMY_PROJ_MASK);
+		m_projectile->retain();
+		break;
+	default:
+		break;
+	}
+}
 
 void Enemy::shoot(float delta)
 {

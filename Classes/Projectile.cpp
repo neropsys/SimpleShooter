@@ -32,9 +32,18 @@ Projectile* Projectile::clone()
 	ret->m_sprite = Sprite::createWithTexture(m_sprite->getTexture());
 	ret->addChild(ret->m_sprite);
 	ret->m_velocity = this->m_velocity;
-	ret->init();
+	ret->setListeners();
+	ret->setBodySize(5.f);
 	ret->setMask(this->m_mask);
 	return ret;
+}
+
+void Projectile::setBodySize(float size)
+{
+	auto body = PhysicsBody::createCircle(size, PhysicsMaterial(0, 0, 0));
+	body->setCollisionBitmask(PROJ_SPACE);
+	m_sprite->setPhysicsBody(body);
+
 }
 
 void Projectile::update(float delta)
@@ -42,6 +51,7 @@ void Projectile::update(float delta)
 
 	Vec2 position = this->getPosition();
 	setPosition(position.x + m_velocity.x, position.y + m_velocity.y);
+
 	onOutOfArea();
 	
 }
@@ -60,15 +70,13 @@ void Projectile::onOutOfArea()
 bool Projectile::init(const std::string& fileName)
 {
 	if (GameObject::init(fileName) == false) return false;
-	
-	return init();
+	setBodySize(5.f);
+
+	return setListeners();
 }
 
-bool Projectile::init()
+bool Projectile::setListeners()
 {
-	auto spriteBody = PhysicsBody::createCircle(5.f, PhysicsMaterial(0, 0, 0));
-	spriteBody->setCollisionBitmask(PROJ_SPACE);
-	m_sprite->setPhysicsBody(spriteBody);
 
 	m_collisionListener->onContactBegin = CC_CALLBACK_1(Projectile::onContactBegin, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_collisionListener, this);

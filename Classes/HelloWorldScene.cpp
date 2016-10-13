@@ -8,7 +8,7 @@ Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::createWithPhysics();
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	scene->getPhysicsWorld()->setGravity(Vec2(0, 0));
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
@@ -127,12 +127,15 @@ void HelloWorld::update(float delta)
 
 void HelloWorld::spawnEnemy(float delta)
 {
-	float xPosition = random<float>(m_origin.x, m_origin.x + m_visibleSize.width);
+	float xPosition = random<float>(m_origin.x+10, m_origin.x + m_visibleSize.width-10);
 
 	auto enemy = Enemy::create("airplane.png");
 	enemy->setRotation(180);
 	enemy->setPosition(Vec2(xPosition, m_origin.y + m_visibleSize.height));
 	enemy->setDestinationPos(Vec2(xPosition, m_origin.y - m_visibleSize.height));
+	//if (((int)xPosition % 2) == 0) {
+		enemy->setBulletType(Projectile::Explosive);
+	//}
 	this->addChild(enemy);
 }
 
@@ -146,6 +149,8 @@ void HelloWorld::onExit()
 {
 	m_label->release();
 	m_player->release();
+	m_player->cleanup();
+	Node::onExit();
 }
 
 void HelloWorld::pauseGame()
