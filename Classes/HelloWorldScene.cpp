@@ -127,15 +127,15 @@ void HelloWorld::update(float delta)
 
 void HelloWorld::spawnEnemy(float delta)
 {
-	float xPosition = random<float>(m_origin.x+10, m_origin.x + m_visibleSize.width-10);
+	float xPosition = random<float>(m_origin.x + 10, m_origin.x + m_visibleSize.width - 10);
 
 	auto enemy = Enemy::create("airplane.png");
 	enemy->setRotation(180);
 	enemy->setPosition(Vec2(xPosition, m_origin.y + m_visibleSize.height));
 	enemy->setDestinationPos(Vec2(xPosition, m_origin.y - m_visibleSize.height));
-	if (((int)xPosition % 3) == 0) {
-		enemy->setBulletType(Projectile::Explosive);
-	}
+	int projectiles = random<int>(1, 4);
+	enemy->setBulletType(Projectile::Explosive, projectiles);
+
 	this->addChild(enemy);
 }
 

@@ -40,7 +40,7 @@ void Enemy::update(float delta)
 }
 
 
-void Enemy::setBulletType(Projectile::BulletType bulletType)
+void Enemy::setBulletType(Projectile::BulletType bulletType, int bulletCount)
 {
 	switch (bulletType) {
 	case Projectile::Explosive:
@@ -48,7 +48,7 @@ void Enemy::setBulletType(Projectile::BulletType bulletType)
 		m_projectile->release();
 
 		auto newSpawner = ExplosiveProjectile::create("red-dot-hi.png");
-		newSpawner->setFragmentNum(2);
+		newSpawner->setFragmentNum(bulletCount);
 		m_projectile = newSpawner;
 		m_projectile->setVelocity(Vec2(0, -2.f));
 		m_projectile->setMask(ENEMY_PROJ_MASK);

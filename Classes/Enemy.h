@@ -11,7 +11,7 @@ public:
 
 	virtual void update(float delta) override;
 	
-	virtual void setBulletType(Projectile::BulletType);
+	virtual void setBulletType(Projectile::BulletType bulletType, int bulletCount);
 
 	virtual void shoot(float delta) override;
 
