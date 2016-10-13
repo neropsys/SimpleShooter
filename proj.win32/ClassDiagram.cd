@@ -7,7 +7,7 @@
       <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\AppDelegate.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Enemy" Collapsed="true">
+  <Class Name="Enemy">
     <Position X="3.75" Y="5.5" Width="1.5" />
     <InheritanceLine Type="GameObject">
       <InheritanceModifierLabel ManuallyPlaced="true">

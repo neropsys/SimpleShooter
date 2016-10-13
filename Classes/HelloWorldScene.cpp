@@ -82,6 +82,8 @@ bool HelloWorld::init()
 			m_player->scheduleUpdate();
 			resumeGame();
 		}
+		case EventKeyboard::KeyCode::KEY_BACKSPACE:
+			Director::getInstance()->end();
 			break;
 		default:
 			break;
@@ -134,7 +136,10 @@ void HelloWorld::spawnEnemy(float delta)
 		auto enemy = Enemy::create("airplane.png");
 		enemy->setRotation(180);
 		enemy->setPosition(Vec2(xPosition, m_origin.y + m_visibleSize.height));
-		enemy->setDestinationPos(Vec2(xPosition, m_origin.y - m_visibleSize.height));
+
+		float endXPosition = random<float>(m_origin.x + 10, m_origin.x + m_visibleSize.width - 10);
+
+		enemy->setDestinationPos(Vec2(endXPosition, m_origin.y - m_visibleSize.height));
 		int projectiles = random<int>(3, 6);
 		enemy->setBulletType(Projectile::Explosive, projectiles);
 		this->addChild(enemy);
@@ -157,13 +162,11 @@ void HelloWorld::onEnter()
 
 void HelloWorld::onExit()
 {
-	
+	Node::onExit();
 	m_label->release();
 	m_player->release();
-	m_player->cleanup();
-	Node::onExit();
 
-	Director::getInstance()->end();
+
 
 }
 
