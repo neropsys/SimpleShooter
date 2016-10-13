@@ -163,10 +163,9 @@ void HelloWorld::onEnter()
 
 void HelloWorld::onExit()
 {
-	Node::onExit();
-	m_label->release();
-	m_player->release();
 
+
+	Node::onExit();
 
 
 }
