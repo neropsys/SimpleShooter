@@ -82,6 +82,7 @@ bool HelloWorld::init()
 			m_player->scheduleUpdate();
 			resumeGame();
 		}
+		break;
 		case EventKeyboard::KeyCode::KEY_BACKSPACE:
 			Director::getInstance()->end();
 			break;
@@ -175,6 +176,7 @@ void HelloWorld::pauseGame()
 	for (const auto& it : this->getChildren()) {
 		it->pause();
 	}
+	m_label->setString("Press esc to begin");
 	m_label->setVisible(true);
 	unschedule(schedule_selector(HelloWorld::spawnEnemy));
 

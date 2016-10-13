@@ -62,15 +62,22 @@
       <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\Player.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Projectile" Collapsed="true">
+  <Class Name="Projectile">
     <Position X="6.75" Y="3.25" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Projectile::BulletType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\Projectile.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAAAAAAIEAAABAAAAgABAAAEEAAAAIYAAABAEAAEIAA=</HashCode>
       <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\Projectile.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ExplosiveProjectile" Collapsed="true">
-    <Position X="6.75" Y="4.5" Width="1.5" />
+    <Position X="6.75" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAABAAIAAAAAAAAAAgAIAAAAEAAAAgIAAAQAEAgEAAA=</HashCode>
       <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\ExplosiveProjectile.h</FileName>

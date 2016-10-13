@@ -5,8 +5,7 @@ using namespace std;
 bool ExplosiveProjectile::setListeners()
 {
 	scheduleUpdate();
-	return true;
-	
+	return true;	
 }
 
 Projectile* ExplosiveProjectile::clone()
@@ -47,7 +46,7 @@ void ExplosiveProjectile::update(float delta)
 			fragment->setScale(0.5f);
 			fragment->setMask(ENEMY_PROJ_MASK);
 
-			float angle = -90.f;//(180.f / m_fragCount) * i;
+			float angle = -90.f;
 
 			//fragments are even
 			if (m_fragCount % 2 == 0) {
