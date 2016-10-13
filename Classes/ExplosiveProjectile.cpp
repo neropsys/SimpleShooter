@@ -43,7 +43,8 @@ void ExplosiveProjectile::update(float delta)
 	if (m_timePassed > m_explosionDelay) {
 		for (int i = 0; i < m_fragCount; i++) {
 			Projectile* fragment = Projectile::create("red-dot-hi.png");
-			fragment->setBodySize(1.f);
+			fragment->setBodySize(0.5f);
+			fragment->setScale(0.5f);
 			fragment->setMask(ENEMY_PROJ_MASK);
 
 			float angle = -90.f;//(180.f / m_fragCount) * i;

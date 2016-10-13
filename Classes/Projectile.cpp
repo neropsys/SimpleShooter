@@ -70,7 +70,7 @@ void Projectile::onOutOfArea()
 bool Projectile::init(const std::string& fileName)
 {
 	if (GameObject::init(fileName) == false) return false;
-	setBodySize(5.f);
+	setBodySize(2.5f);
 
 	return setListeners();
 }

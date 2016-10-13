@@ -8,7 +8,7 @@ Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::createWithPhysics();
-	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	scene->getPhysicsWorld()->setGravity(Vec2(0, 0));
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
@@ -129,14 +129,24 @@ void HelloWorld::spawnEnemy(float delta)
 {
 	float xPosition = random<float>(m_origin.x + 10, m_origin.x + m_visibleSize.width - 10);
 
-	auto enemy = Enemy::create("airplane.png");
-	enemy->setRotation(180);
-	enemy->setPosition(Vec2(xPosition, m_origin.y + m_visibleSize.height));
-	enemy->setDestinationPos(Vec2(xPosition, m_origin.y - m_visibleSize.height));
-	int projectiles = random<int>(1, 4);
-	enemy->setBulletType(Projectile::Explosive, projectiles);
+	
+	if ((int)xPosition % 2 == 0) {
+		auto enemy = Enemy::create("airplane.png");
+		enemy->setRotation(180);
+		enemy->setPosition(Vec2(xPosition, m_origin.y + m_visibleSize.height));
+		enemy->setDestinationPos(Vec2(xPosition, m_origin.y - m_visibleSize.height));
+		int projectiles = random<int>(3, 6);
+		enemy->setBulletType(Projectile::Explosive, projectiles);
+		this->addChild(enemy);
+	}
+	else
+	{
+		auto rock = Meteorite::create("stone.png");
+		rock->setPosition(Vec2(xPosition, m_origin.y + m_visibleSize.height));
+		this->addChild(rock);
+	}
 
-	this->addChild(enemy);
+
 }
 
 void HelloWorld::onEnter()
@@ -147,10 +157,14 @@ void HelloWorld::onEnter()
 
 void HelloWorld::onExit()
 {
+	
 	m_label->release();
 	m_player->release();
 	m_player->cleanup();
 	Node::onExit();
+
+	Director::getInstance()->end();
+
 }
 
 void HelloWorld::pauseGame()

@@ -7,7 +7,7 @@ Player::Player():
 	m_cooldown(0.f),
 	m_shootInterval(0.5f),
 	m_previousPosition(this->getPosition()),
-	m_projectile(Projectile::create("red-dot-hi.png"))
+	m_projectile(Projectile::create("green-dot.png"))
 
 {
 }
@@ -65,7 +65,7 @@ bool Player::init(const std::string& fileName)
 	 m_collisionListener->onContactBegin = CC_CALLBACK_1(Player::onContactBegin, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_collisionListener, this);
 
-	auto spriteBody = PhysicsBody::createCircle(10.f, PhysicsMaterial(0, 0, 0));
+	auto spriteBody = PhysicsBody::createCircle(5.f, PhysicsMaterial(0, 0, 0));
 	spriteBody->setCategoryBitmask(PLAYER_MASK);
 	spriteBody->setContactTestBitmask(PLAYER_MASK);
 	spriteBody->setCollisionBitmask(OBJ_SPACE);

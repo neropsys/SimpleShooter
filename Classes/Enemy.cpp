@@ -9,7 +9,7 @@ Enemy::Enemy() :
 	m_startPos(getPosition()),
 	m_cooldown(0.f),
 	m_shootInterval(1.f),
-	m_projectile(Projectile::create("red-dot-hi.png"))
+	m_projectile(Projectile::create("Blue_dot.png"))
 {
 }
 
@@ -47,7 +47,7 @@ void Enemy::setBulletType(Projectile::BulletType bulletType, int bulletCount)
 	{
 		m_projectile->release();
 
-		auto newSpawner = ExplosiveProjectile::create("red-dot-hi.png");
+		auto newSpawner = ExplosiveProjectile::create("Blue_dot.png");
 		newSpawner->setFragmentNum(bulletCount);
 		m_projectile = newSpawner;
 		m_projectile->setVelocity(Vec2(0, -2.f));

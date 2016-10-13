@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AppDelegate" Collapsed="true">
+    <Position X="11" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAACAAQAAAEAAAAAAAAAAAAk=</HashCode>
+      <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\AppDelegate.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Enemy" Collapsed="true">
+    <Position X="3.75" Y="5.5" Width="1.5" />
+    <InheritanceLine Type="GameObject">
+      <InheritanceModifierLabel ManuallyPlaced="true">
+        <Position X="-0.786" Y="0.091" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
+    <InheritanceLine Type="IShootable">
+      <InheritanceModifierLabel ManuallyPlaced="true">
+        <Position X="0.383" Y="0.068" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AkACAgEEAAAAAAAAAAABCAACEAAABIIAAEAAAAAEAAE=</HashCode>
+      <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\Enemy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObject">
+    <Position X="4.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AhAAAAAAABAAgAAAACABAAAgAAAAAIIAAAAAAAIAAAA=</HashCode>
+      <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IShootable" Collapsed="true">
+    <Position X="1.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\IShootable.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Meteorite" Collapsed="true">
+    <Position X="9" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAABAEAAEAAAAKYAAAAAAAAEAAA=</HashCode>
+      <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\Meteorite.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player" Collapsed="true">
+    <Position X="1.5" Y="5.5" Width="1.5" />
+    <InheritanceLine Type="GameObject">
+      <InheritanceModifierLabel ManuallyPlaced="true">
+        <Position X="-0.473" Y="0.081" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
+    <InheritanceLine Type="IShootable">
+      <InheritanceModifierLabel ManuallyPlaced="true">
+        <Position X="0.141" Y="0.091" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAEAAAAAAAAAgABAAAAEAAAIIIAAEQAAQAEABE=</HashCode>
+      <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\Player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Projectile" Collapsed="true">
+    <Position X="6.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIEAAABAAAAgABAAAEEAAAAIYAAABAEAAEIAA=</HashCode>
+      <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\Projectile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExplosiveProjectile" Collapsed="true">
+    <Position X="6.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAIAAAAAAAAAAgAIAAAAEAAAAgIAAAQAEAgEAAA=</HashCode>
+      <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\ExplosiveProjectile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HelloWorld" Collapsed="true">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CBBIAAACABAAiAAgAAAEABAAAAAABAIAABAAEACEAAA=</HashCode>
+      <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\HelloWorldScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Malgun Gothic" Size="9" />
+</ClassDiagram>
