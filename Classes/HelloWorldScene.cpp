@@ -133,9 +133,9 @@ void HelloWorld::spawnEnemy(float delta)
 	enemy->setRotation(180);
 	enemy->setPosition(Vec2(xPosition, m_origin.y + m_visibleSize.height));
 	enemy->setDestinationPos(Vec2(xPosition, m_origin.y - m_visibleSize.height));
-	//if (((int)xPosition % 2) == 0) {
+	if (((int)xPosition % 3) == 0) {
 		enemy->setBulletType(Projectile::Explosive);
-	//}
+	}
 	this->addChild(enemy);
 }
 

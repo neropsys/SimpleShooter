@@ -15,6 +15,7 @@ Projectile* ExplosiveProjectile::clone()
 	ret->m_sprite = Sprite::createWithTexture(m_sprite->getTexture());
 	ret->addChild(ret->m_sprite);
 	ret->m_velocity = this->m_velocity;
+	ret->m_fragCount = this->m_fragCount;
 	ret->setListeners();
 	ret->setBodySize(5.f);
 	ret->setMask(this->m_mask);
@@ -25,23 +26,13 @@ bool ExplosiveProjectile::init(const std::string& fileName)
 {
 	if (!Projectile::init(fileName))
 		return false;
-	m_frags.reserve(m_fragCount);
-	for (int i = 0; i < m_fragCount; i++) {
-		Projectile* fragment = Projectile::create("red-dot-hi.png");
-		fragment->setBodySize(2.5f);
-		fragment->setMask(ENEMY_PROJ_MASK);
-		float angle = (180.f / m_fragCount) * i;
-		Vec2 direction = Vec2(cos(CC_DEGREES_TO_RADIANS(angle)), sin(CC_DEGREES_TO_RADIANS(angle)));
-		fragment->setVelocity(direction);
-		m_frags.pushBack(fragment); 
-	}
 	return setListeners();
 }
 
-ExplosiveProjectile::ExplosiveProjectile() :m_fragCount(5), m_timePassed(0), m_explosionDelay(0.5f)
+ExplosiveProjectile::ExplosiveProjectile(int projectileCount) :m_fragCount(5), m_timePassed(0), m_explosionDelay(0.5f)
 {
-
 }
+
 
 void ExplosiveProjectile::update(float delta)
 {

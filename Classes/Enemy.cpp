@@ -44,12 +44,16 @@ void Enemy::setBulletType(Projectile::BulletType bulletType)
 {
 	switch (bulletType) {
 	case Projectile::Explosive:
-
+	{
 		m_projectile->release();
-		m_projectile = ExplosiveProjectile::create("red-dot-hi.png"); // ExplosiveProjectile::create("red-dot-hi.png");
+
+		auto newSpawner = ExplosiveProjectile::create("red-dot-hi.png");
+		newSpawner->setFragmentNum(2);
+		m_projectile = newSpawner;
 		m_projectile->setVelocity(Vec2(0, -2.f));
 		m_projectile->setMask(ENEMY_PROJ_MASK);
 		m_projectile->retain();
+	}
 		break;
 	default:
 		break;
