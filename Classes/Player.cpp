@@ -12,10 +12,10 @@ Player::Player():
 {
 }
 
+
 Player::~Player()
 {
 	m_projectile->release();
-	m_eventListener->release();
 	m_collisionListener->release();
 }
 
@@ -41,25 +41,26 @@ bool Player::init(const std::string& fileName)
 		m_origin.y + m_sprite->getContentSize().height / 2,
 		(m_origin.x + m_visibleSize.width) - (m_sprite->getContentSize().width * 2 + m_sprite->getContentSize().width / 2),
 		(m_origin.y + m_visibleSize.height) / 2 - m_sprite->getContentSize().height / 2);
-
-	//make variable
-	m_eventListener = EventListenerKeyboard::create();
-	m_eventListener->onKeyPressed = [&](EventKeyboard::KeyCode keyCode, Event* eventPtr) {
+	m_inputHandler = InputHandler::Init();
+	m_inputHandler->GetEventListener()->onKeyPressed = [&](EventKeyboard::KeyCode keyCode, Event* eventPtr)
+	{
 
 		Vec2 location = eventPtr->getCurrentTarget()->getPosition();
 
-		if (m_keyInput.find(keyCode) == m_keyInput.end()) {
+		if (m_keyInput.find(keyCode) == m_keyInput.end())
+		{
 			m_keyInput[keyCode] = true;
 		}
 
 	};
-	m_eventListener->onKeyReleased = [&](EventKeyboard::KeyCode keyCode, Event* eventPtr) {
+	m_inputHandler->GetEventListener()->onKeyReleased = [&](EventKeyboard::KeyCode keyCode, Event* eventPtr)
+	{
 		m_keyInput.erase(keyCode);
-		if(keyCode == EventKeyboard::KeyCode::KEY_SPACE)
+		if (keyCode == m_inputHandler->fireKey)
 			m_cooldown = m_shootInterval;
 	};
 
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_eventListener, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_inputHandler->GetEventListener(), this);
 
 
 	 m_collisionListener->onContactBegin = CC_CALLBACK_1(Player::onContactBegin, this);
@@ -70,6 +71,7 @@ bool Player::init(const std::string& fileName)
 	spriteBody->setContactTestBitmask(PLAYER_MASK);
 	spriteBody->setCollisionBitmask(OBJ_SPACE);
 	m_sprite->setPhysicsBody(spriteBody);
+
 
 	scheduleUpdate();
 	return true;
@@ -139,3 +141,4 @@ void Player::shoot(float delta)
 		m_cooldown = 0;
 	}
 }
+

@@ -4,7 +4,7 @@
 #include "Constants.h"
 class Projectile : public GameObject{
 public:
-	static enum BulletType{
+	enum BulletType{
 		Explosive
 	};
 	CUSTOM_CREATE_FUNC(Projectile);

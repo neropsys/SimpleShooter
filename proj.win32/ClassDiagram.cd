@@ -1,55 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="AppDelegate" Collapsed="true">
-    <Position X="11" Y="1.5" Width="1.5" />
+    <Position X="15.25" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACAAAAAAAAACAAQAAAEAAAAAAAAAAAAk=</HashCode>
       <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\AppDelegate.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Enemy">
-    <Position X="3.75" Y="5.5" Width="1.5" />
+  <Class Name="Enemy" Collapsed="true">
+    <Position X="3.75" Y="4.75" Width="1.5" />
     <InheritanceLine Type="GameObject">
       <InheritanceModifierLabel ManuallyPlaced="true">
-        <Position X="-0.786" Y="0.091" />
+        <Position X="0.091" Y="-0.786" />
       </InheritanceModifierLabel>
     </InheritanceLine>
     <InheritanceLine Type="IShootable">
       <InheritanceModifierLabel ManuallyPlaced="true">
-        <Position X="0.383" Y="0.068" />
+        <Position X="0.068" Y="0.383" />
       </InheritanceModifierLabel>
     </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AkACAgEEAAAAAAAAAAABCAACEAAABIIAAEAAAAAEAAE=</HashCode>
       <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\Enemy.h</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_projectile" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="GameObject">
-    <Position X="4.25" Y="0.5" Width="2" />
+    <Position X="4.25" Y="3" Width="2" />
     <TypeIdentifier>
       <HashCode>AhAAAAAAABAAgAAAACABAAAgAAAAAIIAAAAAAAIAAAA=</HashCode>
       <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\GameObject.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="IShootable" Collapsed="true">
-    <Position X="1.25" Y="3.25" Width="1.5" />
+    <Position X="0.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAABEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\IShootable.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Meteorite" Collapsed="true">
-    <Position X="9" Y="2.75" Width="1.5" />
+    <Position X="7.5" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAABAAAAAABAEAAEAAAAKYAAAAAAAAEAAA=</HashCode>
       <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\Meteorite.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Player" Collapsed="true">
-    <Position X="1.5" Y="5.5" Width="1.5" />
+    <Position X="1.5" Y="5" Width="1.5" />
     <InheritanceLine Type="GameObject">
       <InheritanceModifierLabel ManuallyPlaced="true">
-        <Position X="-0.473" Y="0.081" />
+        <Position X="0.081" Y="-0.473" />
       </InheritanceModifierLabel>
     </InheritanceLine>
     <InheritanceLine Type="IShootable">
@@ -61,9 +64,15 @@
       <HashCode>AAACAAAEAAAAAAAAAgABAAAAEAAAIIIAAEQAAQAEABE=</HashCode>
       <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\Player.h</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_projectile" />
+    </ShowAsAssociation>
   </Class>
-  <Class Name="Projectile">
-    <Position X="6.75" Y="3.25" Width="1.5" />
+  <Class Name="Projectile" Collapsed="true">
+    <Position X="6.75" Y="4.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
     <NestedTypes>
       <Enum Name="Projectile::BulletType" Collapsed="true">
         <TypeIdentifier>
@@ -71,13 +80,22 @@
         </TypeIdentifier>
       </Enum>
     </NestedTypes>
+    <InheritanceLine Type="GameObject" FixedFromPoint="true">
+      <Path>
+        <Point X="5.75" Y="6.223" />
+        <Point X="5.75" Y="6.463" />
+        <Point X="6.51" Y="6.463" />
+        <Point X="6.51" Y="5.096" />
+        <Point X="6.75" Y="5.096" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAIEAAABAAAAgABAAAEEAAAAIYAAABAEAAEIAA=</HashCode>
       <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\Projectile.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ExplosiveProjectile" Collapsed="true">
-    <Position X="6.75" Y="8.25" Width="1.5" />
+    <Position X="9.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAABAAIAAAAAAAAAAgAIAAAAEAAAAgIAAAQAEAgEAAA=</HashCode>
       <FileName>C:\Users\Administrator\Documents\GitHub\SimpleShooter\Classes\ExplosiveProjectile.h</FileName>

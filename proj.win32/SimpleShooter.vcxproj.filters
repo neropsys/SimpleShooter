@@ -42,6 +42,12 @@
     <ClCompile Include="..\Classes\ExplosiveProjectile.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\InputHandler.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\KeyCommand.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -75,6 +81,10 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ExplosiveProjectile.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\KeyCommand.h" />
+    <ClInclude Include="..\Classes\InputHandler.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
